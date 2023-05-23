@@ -9,7 +9,7 @@ def post_save_create_profile_receiver(sender , instance , created , **kwargs):
     print(created)
     if created:
         UserProfile.objects.create(user=instance)
-        print('create profile successfully')
+        # print('create profile successfully')
 
     else:
         try:
@@ -18,13 +18,14 @@ def post_save_create_profile_receiver(sender , instance , created , **kwargs):
         except:
             # create the userprofile if not exists
             UserProfile.objects.create(user=instance)
-            print('Profile was not exist , but i created on')
-        print('user is updated successfully')
+        #     print('Profile was not exist , but i created on')
+        # print('user is updated successfully')
 
 
 
 @receiver(pre_save , sender=User)
 def pre_save_profile_receiver(sender , instance , **kwargs):
-    print(instance.username , 'this is user is being saved successfully')
+    # print(instance.username , 'this is user is being saved successfully')
+    pass 
 
 # post.save.connect(post_save_create_profile_receiver , sender = User)
