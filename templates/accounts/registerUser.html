@@ -69,6 +69,10 @@
                                     </div>
                                 </li>
                                 <li>
+
+
+
+                                    {% comment %} field errors  {% endcomment %}
                                     <ul class="errorlist">
                                         {% for field in form %}
                                             {% if field.errors %}
@@ -78,8 +82,13 @@
                                             {% endif %}
                                         {% endfor %}
 
+                                        {% comment %} non field errors {% endcomment %}
                                         <li style="color: red;">{{form.non_field_errors}}</li>
                                     </ul>
+
+
+
+
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="field-holder">
@@ -90,12 +99,22 @@
                                         </div>
                                     </div>
 
+
+                                    {% comment %} messages  {% endcomment %}
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <!-- Load message -->
-                                            {% comment %} {% include 'includes/alerts.html' %} {% endcomment %}
+                                            {% include 'includes/alert.html' %}
                                         </div>
                                     </div>
+
+
+
+
+
+
+
+
 
                                 </li>
                             </ul>
