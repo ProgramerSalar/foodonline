@@ -6,11 +6,37 @@ from django.contrib import messages , auth
 from vendor.forms import VendorForm
 from django.views.decorators.csrf import requires_csrf_token
 from .utils import detectUser
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.decorators import login_required , user_passes_test
+from django.core.exceptions import PermissionDenied
 
 
 # Create your views here.
+
+# Restrict the vendor form the accessing the customer page 
+def check_role_vendor(user):
+    if user.role == 1:
+        return True
+    
+    else:
+        raise PermissionDenied
+    
+    
+    
+    
+    
+
+
+# Restrict the customer form the accessing the vendor page 
+def check_role_customer(user):
+    if user.role == 2:
+        return True
+    
+    else:
+        raise PermissionDenied
+
+
+
+
 
 def registerUser(request):
     if request.user.is_authenticated: # user is already logged in or not 
@@ -144,6 +170,7 @@ def myAccount(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(check_role_customer)
 def custDashboard(request):
     return render(request , 'accounts/custdashboard.html')
 
@@ -151,5 +178,6 @@ def custDashboard(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(check_role_vendor)
 def vendorDashboard(request):
     return render(request , 'accounts/vendordashboard.html')
