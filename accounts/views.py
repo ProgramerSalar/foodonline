@@ -25,7 +25,10 @@ from django.views.decorators.csrf import requires_csrf_token
 # Create your views here.
 
 def registerUser(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated: # user is already logged in or not 
+        messages.warning(request , 'You are already logged in')
+        return redirect('dashboard')
+    elif request.method == 'POST':
         # print(request.POST)
         form = UserForm(request.POST)
         if form.is_valid():
@@ -71,7 +74,10 @@ def registerUser(request):
 
 
 def registerVendor(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated: # user is already logged in or not 
+        messages.warning(request , 'You are already logged in')
+        return redirect('dashboard')
+    elif request.method == 'POST':
         # store the data and create the user 
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
@@ -109,7 +115,10 @@ def registerVendor(request):
 
 @requires_csrf_token
 def login(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated: # user is already logged in or not 
+        messages.warning(request , 'You are already logged in')
+        return redirect('dashboard')
+    elif request.method == 'POST':
         email = request.POST['email']  # fetch the email address using the post request 
         password = request.POST['password'] # fetch the password using the post request
         
