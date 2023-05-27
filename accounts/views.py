@@ -249,3 +249,15 @@ def vendorDashboard(request):
 
 
 
+def forgot_password(request):
+    return render(request , 'accounts/forgot_password.html')
+
+
+
+def reset_password_validate(request):
+    return
+
+
+
+def reset_password(request):
+    return render(request , 'accounts/reset_password.html')
