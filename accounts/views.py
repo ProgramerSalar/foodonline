@@ -6,9 +6,15 @@ from django.contrib import messages , auth
 from vendor.forms import VendorForm
 from django.views.decorators.csrf import requires_csrf_token
 from .utils import detectUser
+from .utils  import send_verification_email
 from django.contrib.auth.decorators import login_required , user_passes_test
 from django.core.exceptions import PermissionDenied
-
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -64,6 +70,20 @@ def registerUser(request):
             user.role = User.CUSTOMER
             user.save()
             
+            # send verification email
+            # send_verification_email(request, user)
+            current_site = get_current_site(request)
+            mail_subject = 'Please activate your account'
+            message = render_to_string('accounts/emails/account_verification_email.html',{
+                'user':user,
+                'domain':current_site,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':default_token_generator.make_token(user),
+            })
+            to_email = email
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
+            
             # messages 
             messages.success(request, 'your account registered successfully')
             
@@ -109,6 +129,9 @@ def registerVendor(request):
             user_profile = UserProfile.objects.get(user=user)  # 
             vendor.user_profile = user_profile  # vendor user profile to connect the vendor 
             vendor.save()
+            
+            send_verification_email(request, user)  # send verification email
+            
             messages.success(request , 'Your account has been registered successfully! please wai for the approval.')
             return redirect('registerVendor')
             
@@ -125,6 +148,29 @@ def registerVendor(request):
     }
     
     return render(request , 'accounts/registerVendor.html',context)
+
+
+
+
+def activate(request , uidb64 , token):
+    # activate the user by setting the is_active status to true 
+    return 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @requires_csrf_token
@@ -181,3 +227,6 @@ def custDashboard(request):
 @user_passes_test(check_role_vendor)
 def vendorDashboard(request):
     return render(request , 'accounts/vendordashboard.html')
+
+
+
