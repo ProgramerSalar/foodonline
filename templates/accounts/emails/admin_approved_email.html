@@ -1,0 +1,13 @@
+{% autoescape off %}
+
+    Hi {{user.first_name}},
+
+    {% if is_approved %}
+    Congratulations! your restaurant has been approved by our admin team. -- foodOnline 
+    {% else %}
+    we are Sorry! you are not eligible for publishing your food menu on our marketplace. for more details , please contact manishkumar60708090@gmail.com 
+    
+    {% endif %}
+
+
+{% endautoescape %}
