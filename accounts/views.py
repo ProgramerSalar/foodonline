@@ -10,12 +10,15 @@ from .utils  import send_verification_email
 from django.contrib.auth.decorators import login_required , user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode ,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from .models import User
+from django.contrib import messages
 # Create your views here.
 
 # Restrict the vendor form the accessing the customer page 
@@ -153,8 +156,24 @@ def registerVendor(request):
 
 
 def activate(request , uidb64 , token):
-    # activate the user by setting the is_active status to true 
-    return 
+    # activate the user by setting the is_active status to True 
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User._default_manager.get(pk=uid)
+        
+    except(TypeError, ValueError , OverflowError, User.DoesNotExist):
+        user=None
+        
+        
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active=True
+        user.save()
+        messages.success(request, 'your account has been activated!')
+        return redirect('myAccount')
+    
+    else:
+        messages.error(request , 'Invalid activation link')
+        return redirect('myAccount')
 
 
 
