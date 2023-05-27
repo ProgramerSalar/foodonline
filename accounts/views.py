@@ -204,6 +204,7 @@ def login(request):
         if user is not None:
             auth.login(request,user)  # allow the user to login 
             messages.success(request, 'You are logged in')
+            return redirect('myAccount')
             
         else:
             messages.error(request , 'Invalid login credentials')  # user is not logged in
@@ -272,14 +273,48 @@ def forgot_password(request):
 
 
 
-def reset_password_validate(request):
+def reset_password_validate(request, uidb64, token):
     # validate the user by decoding the token and user primary key 
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User._default_manager.get(pk=uid)
+        
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user=None
+        
+        
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        messages.info(request, 'Please reset your password')
+        return redirect('reset_password')
     
-    return
+    else:
+        messages.error(request, 'This link has been expired!')
+        return redirect('myAccount')
+    
+        
+    
 
 
 
 def reset_password(request):
+    if request.method == 'POST':
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        
+        if password == confirm_password:
+            pk = request.session.get('uid')
+            user = User.objects.get(pk=pk)
+            user.set_password(password)
+            user.is_active = True
+            user.save()
+            messages.success(request, 'Password reset successfully')
+            return redirect('login')
+        
+        
+        else:
+            messages.error(request, 'Password Does Not match!')
+            return redirect('reset_password')
     return render(request, 'accounts/reset_password.html')
 
 
