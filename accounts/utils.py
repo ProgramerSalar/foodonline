@@ -54,3 +54,6 @@ def send_notification(mail_subject, mail_template, context):
     to_email = context['user'].email   # give the email address of the user 
     mail = EmailMessage(mail_subject, messages, from_email, to=[to_email])
     mail.send()
+
+
+    
