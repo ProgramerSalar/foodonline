@@ -7,6 +7,8 @@ from vendor.forms import VendorForm
 from django.views.decorators.csrf import requires_csrf_token
 from .utils import detectUser , send_verification_email
 
+
+
 from django.contrib.auth.decorators import login_required , user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.template.loader import render_to_string
@@ -245,11 +247,7 @@ def custDashboard(request):
 @login_required(login_url='login')
 @user_passes_test(check_role_vendor)
 def vendorDashboard(request):
-    vendor = Vendor.objects.get(user=request.user)
-    context  = {
-        'vendor':vendor,
-    }
-    return render(request, 'accounts/vendordashboard.html', context)
+    return render(request, 'accounts/vendordashboard.html')
 
 
 
