@@ -26,7 +26,18 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     profile_picture = forms.FileField(widget=forms.FileInput(attrs={'class':'btn-btn-info'}), validators=[allow_only_images_validator])
     cover_photo = forms.FileField(widget=forms.FileInput(attrs={'class':'btn-btn-info'}), validators=[allow_only_images_validator])
+    
+    # latitude = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}))  # latitude are only to readonly and write 
+    # longitude = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}))
     class Meta:
         model = UserProfile
         fields = ['profile_picture', 'cover_photo', 'address_line_1', 'address_line_2', 'country', 'state', 'pin_code', 'latitude', 'longitude', 'city']
-        
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm,self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if field == 'latitude' or field == 'longitude':
+                self.fields[field].widget.attrs['readonly'] ='readonly'
+                
+                
+                
