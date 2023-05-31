@@ -35,7 +35,7 @@
                                     <th scope="row">{{ forloop.counter }}</th>
                                     
                                     <td class="text-left">
-                                        <a href="#"><p class="mb-0 font-weight-bold">{{ cat }}</p>
+                                        <a href="{% url 'fooditems_by_category' cat.id %}"><p class="mb-0 font-weight-bold">{{ cat }}</p>
                                         <small class="text-muted">{{cat.description}}</small></a>
                                     </td>
                                     <td><i class="fa fa-pencil m-4" aria-hidden="true"></i> &nbsp; <i class="fa fa-trash text-danger" aria-hidden="true"></i></td>
