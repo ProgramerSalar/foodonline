@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.defaultfilters import slugify
-from menu.forms import CategoryForm
+from menu.forms import CategoryForm, FoodItemForm
 from .forms import VendorForm
 from accounts.forms import UserProfileForm
 from accounts.models import UserProfile
@@ -139,3 +139,27 @@ def delete_category(request, pk=None):
     category.delete()
     messages.success(request, 'Category has been deleted successfully!')
     return redirect('menu_builder')
+
+
+def add_food(request):
+    
+    if request.method == 'POST':
+        form = FoodItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            food_title = form.cleaned_data['food_title']
+            food = form.save(commit=False) # this forms is 
+            food.vendor = get_vendor(request)   
+            food.slug = slugify(food_title)
+            form.save()
+            messages.success(request, 'Category has been added successfully!')
+            return redirect('fooditems_by_category', food.category.id)
+        else:
+            print(form.errors)
+            
+    else:       
+        form = FoodItemForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'vendor/add_food.html',context)
+

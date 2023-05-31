@@ -23,15 +23,21 @@
                             <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</button>
                             <br>
                             <br>
-                            <h6>Modify Category</h6>
-                            <form action="{% url 'edit_category' category.id %}" method="POST">
+                            <h6>Add New FOOD Item</h6>
+                            <form action="{% url 'add_food' %}" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="form-fields-set">
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12">
                                             <div class="field-holder">
-                                                <label >Category Name *</label>
-                                                {{form.category_name}}
+                                                <label >food title *</label>
+                                                {{form.food_title}}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="field-holder">
+                                                <label >Category</label>
+                                                {{form.category}}
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -40,8 +46,28 @@
                                                 {{form.description}}
                                             </div>
                                         </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <div class="field-holder">
+                                                <label >Category Price</label>
+                                                {{form.price}}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="field-holder">
+                                                <label >Category Image</label>
+                                                {{form.image}}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="field-holder">
+                                                <label >is available?</label>
+                                                {{form.is_available}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                
+                                
 
                                 {% for field in form %}
                                     {% if field.errors %}
@@ -51,7 +77,7 @@
                                     {% endif %}
                                 {% endfor %}
 
-                                <button type="submit" class="btn btn-info"><i class="fa fa-check" aria-hidden="true"></i> update</button>
+                                <button type="submit" class="btn btn-info"><i class="fa fa-check" aria-hidden="true"></i> Create</button>
                             </form>
 
                             <!-- render form -->
