@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.defaultfilters import slugify
+from menu.forms import CategoryForm
 from .forms import VendorForm
 from accounts.forms import UserProfileForm
 from accounts.models import UserProfile
@@ -77,3 +79,25 @@ def fooditems_by_category(request, pk=None):
         'category':category,
     }
     return render(request, 'vendor/fooditems_by_category.html', context)
+
+
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category_name = form.cleaned_data['category_name']
+            category = form.save(commit=False) # this forms is 
+            category.vendor = get_vendor(request)   
+            category.slug = slugify(category_name)
+            form.save()
+            messages.success(request, 'Category has been added successfully!')
+            return redirect('menu_builder')
+        
+    else:
+        form = CategoryForm()
+        
+
+    context = {
+        'form':form,
+    }
+    return render(request , 'vendor/add_category.html',context)
