@@ -167,6 +167,11 @@ def add_food(request):
     }
     return render(request, 'vendor/add_food.html',context)
 
+
+
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
 def edit_food(request, pk=None):
     food = get_object_or_404(FoodItem, pk=pk)
     
@@ -192,4 +197,14 @@ def edit_food(request, pk=None):
         'food':food,
     }
     return render(request, 'vendor/edit_food.html',context)
+    
+    
+    
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def delete_food(request, pk=None):
+    food = get_object_or_404(FoodItem, pk=pk)
+    food.delete()
+    messages.success(request, 'food has been deleted successfully!')
+    return redirect('fooditems_by_category', food.category.id)
     
