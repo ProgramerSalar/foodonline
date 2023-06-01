@@ -162,6 +162,8 @@ def add_food(request):
             
     else:       
         form = FoodItemForm()
+        # mofified this form 
+        form.fields['category'].queryset = Category.objects.filter(vendor=get_vendor(request))  # category are not allowed to one to another vendor 
     context = {
         'form': form,
     }
