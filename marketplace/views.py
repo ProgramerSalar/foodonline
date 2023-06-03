@@ -16,3 +16,9 @@ def marketplace(request):
     }
     return render(request, 'marketplace/listings.html', context)
 
+
+
+
+
+def vendor_detail(request, vendor_slug):
+    return render(request, 'marketplace/vendor_detail.html')
