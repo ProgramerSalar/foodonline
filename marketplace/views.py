@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from vendor.models import Vendor
 from menu.models import Category, FoodItem
 from django.db.models import Prefetch 
+from django.http import HttpResponse
+
+
+
 
 # Create your views here.
 
@@ -38,3 +42,5 @@ def vendor_detail(request, vendor_slug):
 
 
 
+def add_to_cart(request):
+    return HttpResponse("hello  world")
