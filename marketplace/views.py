@@ -42,5 +42,5 @@ def vendor_detail(request, vendor_slug):
 
 
 
-def add_to_cart(request):
-    return HttpResponse("hello  world")
+def add_to_cart(request, food_id):
+    return HttpResponse(food_id)
