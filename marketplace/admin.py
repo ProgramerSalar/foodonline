@@ -7,4 +7,4 @@ class CartAdmin(admin.ModelAdmin):
     
 
 # Register your models here.
-admin.site.register(Cart)
+admin.site.register(Cart, CartAdmin)

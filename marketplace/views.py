@@ -42,37 +42,6 @@ def vendor_detail(request, vendor_slug):
 
 
 
-# def add_to_cart(request, food_id):
-#     if request.user.is_authenticated:
-#         if request.is_ajax():
-#             # check the food item exists
-#             try:
-#                 fooditem = FoodItem.objects.get(id=food_id)
-#                 # check if the user has already added that food to the cart 
-#                 try:
-#                     chkCart = Cart.objects.get(user=request.user, fooditem=fooditem)  # user is add to this fooditem otherwise not added to fooditem in cart 
-#                     # Increase the Cart qunatity 
-#                     chkCart.quantity += 1 
-#                     chkCart.save()
-#                     return JsonResponse({'status':'failed', 'message':'Incresed the cart quantity'})
-
-#                 except:
-#                     chkCart = Cart.objects.create(user=request.user, fooditem=fooditem, quantity=1)  # if food is not added the cart , simply fooditem is added to cart 
-#                     return JsonResponse({'status':'failed', 'message':'Added the food in cart'})
-
-
-#             except:
-#                 return JsonResponse({'status':'failed', 'message':'This food does not exist!'})
-
-
-#         else:
-
-#             return JsonResponse({'status':'failed', 'message':'Invalid request'})
-        
-
-#     else:
-#         return JsonResponse({'status':'failed', 'message': 'Please login to continue'})
-
 
 
 
