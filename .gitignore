@@ -153,4 +153,19 @@ cython_debug/
 .env
 media 
 
-static 
+assets 
+css 
+extra-images 
+fronts 
+images 
+bootstrap-detepicker
+bootstrap-slider
+bootstrap
+chosen
+counter
+custom
+deterangepicker
+filters
+functions
+jquery-te-1.4.0.min 
+jquery-ui 
