@@ -92,6 +92,13 @@ $(document).ready(function(){
             }
         })
 
+        function removeCartItem(cartItemQty, cart_id){
+            if(cartItemQty <= 0){
+                // remove the cart item element 
+                document.getElementById("cart-item-"+cart_id).remove()  // use the cart_id and remove it 
+            }
+        }
+
     })
 
 
