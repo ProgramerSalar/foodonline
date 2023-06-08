@@ -84,8 +84,13 @@ $(document).ready(function(){
                     $('#cart_counter').html(response.cart_counter['cart_count'])  // add the class cart_counter html to add it and increase the number of cart in navbar 
                     $('#qty-'+food_id).html(response.qty)  // add the class cart_counter html to add it and increse the cart in vendor_detail.html page 
 
-                    // removeCartItem(response.qty, cart_id);
-                    removeCartItem(response.qty, cart_id);  // minus button are clicked and when equal to 0 item is remove it 
+                    if(window.location.pathname == '/cart/'){
+                        removeCartItem(response.qty, cart_id);  // minus button are clicked and when equal to 0 item is remove it 
+                        checkEmptyCart();
+
+
+                    }
+
 
                 }
                 
@@ -127,6 +132,8 @@ $('.delete_cart').on('click', function(e){
                 $('#cart_counter').html(response.cart_counter['cart_count']);
                 swal(response.status, response.message, "success")
 
+                
+
                 removeCartItem(0, cart_id);  // remove the caritem using the cart_id 
                 checkEmptyCart();
 
@@ -137,10 +144,13 @@ $('.delete_cart').on('click', function(e){
 
     // delete the cart element if the quantity is 0 
     function removeCartItem(cartItemQty, cart_id){
-        if(cartItemQty <= 0){
-            // remove the cart item element 
-            document.getElementById("cart-item-"+cart_id).remove()  // use the cart_id and remove it 
-        }
+            if(cartItemQty <= 0){
+                // remove the cart item element 
+                document.getElementById("cart-item-"+cart_id).remove()  // use the cart_id and remove it 
+            }
+
+        
+        
     }
 
 
@@ -154,8 +164,6 @@ $('.delete_cart').on('click', function(e){
     }
 
 })
-
-
 
 
 
