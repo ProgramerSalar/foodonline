@@ -29,10 +29,29 @@ $(document).ready(function(){
                     $('#cart_counter').html(response.cart_counter['cart_count'])  // add the class cart_counter html to add it and increase the number of cart in navbar 
                     $('#qty-'+food_id).html(response.qty)  // add the class cart_counter html to add it and increse the cart in vendor_detail.html page 
 
+
+                    // subtotal, tax and grand total 
+                    applyCartAmounts(
+                        response.cart_amount['subtotal'],
+                        response.cart_amount['tax'],
+                        response.cart_amount['grand_total'],
+                    )
+
+
                 }
 
             }
         })
+        // apply cart amounts 
+        function applyCartAmounts(subtotal, tax, grand_total){
+            if(window.location.pathname == '/cart/'){
+                $('#subtotal').html(subtotal)
+                $('#tax').html(tax)
+                $('#total').html(grand_total)
+
+        }
+        
+    }
 
     })
 
@@ -84,6 +103,16 @@ $(document).ready(function(){
                     $('#cart_counter').html(response.cart_counter['cart_count'])  // add the class cart_counter html to add it and increase the number of cart in navbar 
                     $('#qty-'+food_id).html(response.qty)  // add the class cart_counter html to add it and increse the cart in vendor_detail.html page 
 
+
+
+                    applyCartAmounts(
+                        response.cart_amount['subtotal'],
+                        response.cart_amount['tax'],
+                        response.cart_amount['grand_total'],
+                    )
+
+
+
                     if(window.location.pathname == '/cart/'){
                         removeCartItem(response.qty, cart_id);  // minus button are clicked and when equal to 0 item is remove it 
                         checkEmptyCart();
@@ -105,6 +134,27 @@ $(document).ready(function(){
         }
 
     })
+
+
+     // check if the cart is empty 
+     function checkEmptyCart(){
+        var cart_counter = document.getElementById('cart_counter').innerHTML   // id cart_counter hai html me 
+        if(cart_counter == 0){   // when cart_counter is equal to 0 
+            document.getElementById("empty-cart").style.display = "block";    // id empty-cart is show when cart_counter is 0 
+        }
+    }
+
+
+
+    function applyCartAmounts(subtotal, tax, grand_total){
+        if(window.location.pathname == '/cart/'){
+            $('#subtotal').html(subtotal)
+            $('#tax').html(tax)
+            $('#total').html(grand_total)
+
+        }
+        
+    }
 
 
 
@@ -131,6 +181,14 @@ $('.delete_cart').on('click', function(e){
             }else{
                 $('#cart_counter').html(response.cart_counter['cart_count']);
                 swal(response.status, response.message, "success")
+
+
+
+                applyCartAmounts(
+                    response.cart_amount['subtotal'],
+                    response.cart_amount['tax'],
+                    response.cart_amount['grand_total'],
+                )
 
                 
 
@@ -161,6 +219,17 @@ $('.delete_cart').on('click', function(e){
         if(cart_counter == 0){   // when cart_counter is equal to 0 
             document.getElementById("empty-cart").style.display = "block";    // id empty-cart is show when cart_counter is 0 
         }
+    }
+
+    // apply cart amounts 
+    function applyCartAmounts(subtotal, tax, grand_total){
+        if(window.location.pathname == '/cart/'){
+            $('#subtotal').html(subtotal)
+            $('#tax').html(tax)
+            $('#total').html(grand_total)
+
+        }
+        
     }
 
 })
