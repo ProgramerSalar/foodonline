@@ -51,8 +51,11 @@ $(document).ready(function(){
 
     $('.decrease_cart').on('click',function(e){
         e.preventDefault();
+
         food_id =$(this).attr('data-id');   // capture the data 
-        url = $(this).attr('data-url')
+        url = $(this).attr('data-url');
+        cart_id = $(this).attr('id');
+        
 
 
         
@@ -80,6 +83,9 @@ $(document).ready(function(){
                 }else{
                     $('#cart_counter').html(response.cart_counter['cart_count'])  // add the class cart_counter html to add it and increase the number of cart in navbar 
                     $('#qty-'+food_id).html(response.qty)  // add the class cart_counter html to add it and increse the cart in vendor_detail.html page 
+
+                    // removeCartItem(response.qty, cart_id);
+                    removeCartItem(response.qty, cart_id);  // minus button are clicked and when equal to 0 item is remove it 
 
                 }
                 
